@@ -27,9 +27,9 @@ class Subnetwork:
         self.q_thresh = 0.5  # This value is set manually after observing the data from Simu5g
 
 
-# def betaCalculation(subnetwork):
-#     beta = np.sum((subnetwork.q <= qt) * subnetwork.x) / np.sum(subnetwork.x)
-#     return beta
+def calculateBeta(subnetwork):
+    beta = np.sum((subnetwork.q <= subnetwork.q_thresh) * subnetwork.x) / np.sum(subnetwork.x)
+    return beta
 
 
 # this function represents the traffic given to a subnetwork. In training, it is random. In testing, we take traffic
@@ -39,7 +39,7 @@ def getTraffic():
 
 
 # Using RL, the resources are changed (10% - 80%)
-# TODO: This needs the state
+# This needs the state
 def getResources():
     return np.random.randint(1, 8) * 0.1
 
@@ -78,5 +78,10 @@ if __name__ == '__main__':
             updateSubnetwork(subnetwork, trafficX, resourceR, None)
             # Calculate Degradation Probability
             qos = getQoS(subnetwork)
+            # Calculate Beta
+            calculateBeta(subnetwork)
+            # TODO: Send results to RL for a new resource allocation
 
-        # pdb.set_trace()
+
+
+# pdb.set_trace()
