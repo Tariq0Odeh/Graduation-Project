@@ -17,10 +17,10 @@ class QosSimulation:
 
 # Used to initialize a subnetwork
 class Subnetwork:
-    def __init__(self, simu):
+    def __init__(self, qosSimulation):
         self.x = 1  # TODO: Set initial traffic
         self.r = 0.1  # TODO: Set initial resources
-        self.simu = simu
+        self.qosSimulation = qosSimulation
         self.q = 0.5  # We get this value from sampling the mean and standard deviation
         self.q_thresh = 0.5  # This value is set manually after observing the data from Simu5g
 
@@ -45,7 +45,7 @@ def getResources():
 # This function returns the qos sample by using the dictionary
 # Each subnetwork type has its own dictionary
 def getQoS(subnetwork):
-    gaussianTuple = subnetwork.simu.dict[(subnetwork.x, subnetwork.r)]
+    gaussianTuple = subnetwork.qosSimulation.dict[(subnetwork.x, subnetwork.r)]
     # TODO: Get sampled value
     sampledValue = 0.5
     updateSubnetwork(subnetwork, None, None, sampledValue)
