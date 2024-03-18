@@ -1,6 +1,8 @@
 import numpy as np
 import pdb
 
+from helperFunctions import initDict, sample_from_gaussian
+
 # Define global variables
 N = 20  # Numbers of TTIs in DTI
 K = 2  # Different types of resources allocated to subnetwork
@@ -46,10 +48,9 @@ def getResources():
 # Each subnetwork type has its own dictionary
 def getQoS(subnetwork):
     gaussianTuple = subnetwork.qosSimulation.dict[(subnetwork.x, subnetwork.r)]
-    # TODO: Get sampled value
-    sampledValue = 0.5
+    sampledValue = sample_from_gaussian(gaussianTuple[0], gaussianTuple[1])
     updateSubnetwork(subnetwork, None, None, sampledValue)
-    return sampledValue  # TODO: Return sampled value
+    return sampledValue
 
 
 # Function used to update a subnetwork attributes
@@ -61,51 +62,6 @@ def updateSubnetwork(subnetwork, traffic, resource, qos):
     if qos is not None:
         subnetwork.q = qos
 
-
-# This is a temp function that creates a dictionary for the simulation
-# Improve it to be read from a file
-def initDict():
-    new_dict = {}
-    new_dict[(1, 0.1)] = (1, 1)
-    new_dict[(1, 0.2)] = (1, 1)
-    new_dict[(1, 0.3)] = (1, 1)
-    new_dict[(1, 0.4)] = (1, 1)
-    new_dict[(1, 0.5)] = (1, 1)
-    new_dict[(1, 0.6)] = (1, 1)
-    new_dict[(1, 0.7)] = (1, 1)
-    new_dict[(1, 0.8)] = (1, 1)
-    new_dict[(2, 0.1)] = (1, 1)
-    new_dict[(2, 0.2)] = (1, 1)
-    new_dict[(2, 0.3)] = (1, 1)
-    new_dict[(2, 0.4)] = (1, 1)
-    new_dict[(2, 0.5)] = (1, 1)
-    new_dict[(2, 0.6)] = (1, 1)
-    new_dict[(2, 0.7)] = (1, 1)
-    new_dict[(2, 0.8)] = (1, 1)
-    new_dict[(3, 0.1)] = (1, 1)
-    new_dict[(3, 0.2)] = (1, 1)
-    new_dict[(3, 0.3)] = (1, 1)
-    new_dict[(3, 0.4)] = (1, 1)
-    new_dict[(3, 0.5)] = (1, 1)
-    new_dict[(3, 0.6)] = (1, 1)
-    new_dict[(3, 0.7)] = (1, 1)
-    new_dict[(3, 0.8)] = (1, 1)
-    new_dict[(4, 0.1)] = (1, 1)
-    new_dict[(4, 0.2)] = (1, 1)
-    new_dict[(4, 0.3)] = (1, 1)
-    new_dict[(4, 0.4)] = (1, 1)
-    new_dict[(4, 0.5)] = (1, 1)
-    new_dict[(4, 0.6)] = (1, 1)
-    new_dict[(4, 0.7)] = (1, 1)
-    new_dict[(4, 0.8)] = (1, 1)
-    new_dict[(5, 0.1)] = (1, 1)
-    new_dict[(5, 0.2)] = (1, 1)
-    new_dict[(5, 0.3)] = (1, 1)
-    new_dict[(5, 0.4)] = (1, 1)
-    new_dict[(5, 0.5)] = (1, 1)
-    new_dict[(5, 0.6)] = (1, 1)
-    new_dict[(5, 0.7)] = (1, 1)
-    new_dict[(5, 0.8)] = (1, 1)
 
 
 if __name__ == '__main__':
