@@ -5,7 +5,7 @@ from helperFunctions import initDict, sample_from_gaussian
 
 # Define global variables
 N = 20  # Numbers of TTIs in DTI
-K = 2  # Different types of resources allocated to subnetwork
+K = 1  # Different types of resources allocated to subnetwork
 TTI = np.arange(1000)  # The transmission time interval
 T = TTI[0::N]  # the set of starting points of all DTIs
 
@@ -20,10 +20,10 @@ class QosSimulation:
 # Used to initialize a subnetwork
 class Subnetwork:
     def __init__(self, qosSimulation):
-        self.x = 1  # TODO: Set initial traffic
-        self.r = 0.1  # TODO: Set initial resources
+        self.x = np.zeros(N)  # TODO: Set initial traffic
+        self.r = np.zeros(K)  # TODO: Set initial resources
         self.qosSimulation = qosSimulation
-        self.q = 0.5  # We get this value from sampling the mean and standard deviation
+        self.q = np.zeros(N)  # We get this value from sampling the mean and standard deviation
         self.q_thresh = 0.5  # This value is set manually after observing the data from Simu5g
 
 
@@ -35,22 +35,27 @@ def calculateBeta(subnetwork):
 # this function represents the traffic given to a subnetwork. In training, it is random. In testing, we take traffic
 # from Italia communication dataset
 def getTraffic():
-    return np.random.randint(1, 5)
+    pass
 
 
 # Using RL, the resources are changed (10% - 80%)
 # This needs the state
+# TODO: Add RL Work here
 def getResources():
-    return np.random.randint(1, 8) * 0.1
+    pass
 
 
 # This function returns the qos sample by using the dictionary
 # Each subnetwork type has its own dictionary
+# TODO: Make it work for more than one resource
 def getQoS(subnetwork):
-    gaussianTuple = subnetwork.qosSimulation.dict[(subnetwork.x, subnetwork.r)]
-    sampledValue = sample_from_gaussian(gaussianTuple[0], gaussianTuple[1])
-    updateSubnetwork(subnetwork, None, None, sampledValue)
-    return sampledValue
+    qos = np.zeros(N)
+    for i in range(N):
+        gaussianTuple = subnetwork.qosSimulation.dict[(subnetwork.x[i], subnetwork.r[0])] # value, value
+        sampledValue = sample_from_gaussian(gaussianTuple[0], gaussianTuple[1])
+        qos[i] = sampledValue
+    updateSubnetwork(subnetwork, None, None, qos)
+    return qos
 
 
 # Function used to update a subnetwork attributes
@@ -68,7 +73,6 @@ if __name__ == '__main__':
     simulation1 = QosSimulation(initDict())
     subnetworks = [Subnetwork(simulation1)]
     for cnt in range(len(T) - 1):  # Every DTI
-        # t = TTI[T[cnt]:(T[cnt + 1])]
         for subnetwork in subnetworks:
             # At the start of the DTI we receive how much resources are allocated
             resourceR = getResources()
