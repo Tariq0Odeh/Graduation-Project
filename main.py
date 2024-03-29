@@ -53,7 +53,17 @@ def getTraffic():
 
 # TODO: Implement CDF
 def predictTraffic(subnetwork):
+    # predicted = np.zeros((N, len(listOfUsers))) # 2d array, cols = N (TTIs), rows = len(listofusers)
+    # for i in range(N): # for every TTI
+    #     data = np.zeros(len(subnetwork.cumulativeX))
+    #     for j in range(len(subnetwork.cumulativeX)):
+    #         data[j] = subnetwork.cumulativeX[j][i]
+    #
+    #     count, bins_count = np.histogram(data, bins=1)
+    #     pdf = count / sum(count)
+    #     cdf = np.cumsum(pdf)
     pass
+
 
 
 # Using RL, the resources are changed (10% - 80%)
