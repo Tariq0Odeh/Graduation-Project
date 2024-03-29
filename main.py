@@ -1,4 +1,5 @@
 import numpy as np
+import random
 import pdb
 
 from helperFunctions import initDict, sample_from_gaussian
@@ -8,6 +9,9 @@ N = 20  # Numbers of TTIs in DTI
 K = 1  # Different types of resources allocated to subnetwork
 TTI = np.arange(1000)  # The transmission time interval
 T = TTI[0::N]  # the set of starting points of all DTIs
+trainingFlag = "training"
+
+listOfUsers = [5, 10, 15, 20]
 
 
 # This class contains the qos dictionary for each subnetwork TYPE
@@ -20,21 +24,35 @@ class QosSimulation:
 # Used to initialize a subnetwork
 class Subnetwork:
     def __init__(self, qosSimulation):
+        self.beta = 1
         self.x = np.zeros(N)  # TODO: Set initial traffic
         self.r = np.zeros(K)  # TODO: Set initial resources
         self.qosSimulation = qosSimulation
         self.q = np.zeros(N)  # We get this value from sampling the mean and standard deviation
         self.q_thresh = 0.5  # This value is set manually after observing the data from Simu5g
+        self.cumulativeX = [] # Store all traffic from the start
 
 
 def calculateBeta(subnetwork):
-    beta = np.sum((subnetwork.q <= subnetwork.q_thresh) * subnetwork.x) / np.sum(subnetwork.x)
-    return beta
+    subnetwork.beta = np.sum((subnetwork.q <= subnetwork.q_thresh) * subnetwork.x) / np.sum(subnetwork.x)
 
 
 # this function represents the traffic given to a subnetwork. In training, it is random. In testing, we take traffic
 # from Italia communication dataset
 def getTraffic():
+    newTraffic = []
+    if trainingFlag == "training":
+        for i in range(N):
+            newTraffic.append(random.choice(listOfUsers))
+    else:
+        for i in range(N):
+            newTraffic.append(0) # TODO: Return the traffic from the dataset
+    subnetwork.cumulativeX.append(newTraffic)
+    return newTraffic
+
+
+# TODO: Implement CDF
+def predictTraffic(subnetwork):
     pass
 
 
@@ -55,8 +73,6 @@ def getQoS(subnetwork):
         sampledValue = sample_from_gaussian(gaussianTuple[0], gaussianTuple[1])
         qos[i] = sampledValue
     updateSubnetwork(subnetwork, None, None, qos)
-    return qos
-
 
 # Function used to update a subnetwork attributes
 def updateSubnetwork(subnetwork, traffic, resource, qos):
@@ -81,7 +97,7 @@ if __name__ == '__main__':
             # We update the subnetwork with the new traffic and resources
             updateSubnetwork(subnetwork, trafficX, resourceR, None)
             # Calculate Degradation Probability
-            qos = getQoS(subnetwork)
+            getQoS(subnetwork)
             # Calculate Beta
             calculateBeta(subnetwork)
             # TODO: Send results to RL for a new resource allocation
