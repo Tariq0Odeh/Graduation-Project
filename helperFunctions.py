@@ -1,0 +1,50 @@
+import numpy as np
+
+# This function gets a sample value given the mean and standard deviation
+def sample_from_gaussian(mean, std_dev):
+    return np.random.normal(mean, std_dev)
+
+# This is a temp function that creates a dictionary for the simulation
+# Improve it to be read from a file
+def initDict():
+    new_dict = {}
+    new_dict[(1, 0.1)] = (1, 1)
+    new_dict[(1, 0.2)] = (1, 1)
+    new_dict[(1, 0.3)] = (1, 1)
+    new_dict[(1, 0.4)] = (1, 1)
+    new_dict[(1, 0.5)] = (1, 1)
+    new_dict[(1, 0.6)] = (1, 1)
+    new_dict[(1, 0.7)] = (1, 1)
+    new_dict[(1, 0.8)] = (1, 1)
+    new_dict[(2, 0.1)] = (1, 1)
+    new_dict[(2, 0.2)] = (1, 1)
+    new_dict[(2, 0.3)] = (1, 1)
+    new_dict[(2, 0.4)] = (1, 1)
+    new_dict[(2, 0.5)] = (1, 1)
+    new_dict[(2, 0.6)] = (1, 1)
+    new_dict[(2, 0.7)] = (1, 1)
+    new_dict[(2, 0.8)] = (1, 1)
+    new_dict[(3, 0.1)] = (1, 1)
+    new_dict[(3, 0.2)] = (1, 1)
+    new_dict[(3, 0.3)] = (1, 1)
+    new_dict[(3, 0.4)] = (1, 1)
+    new_dict[(3, 0.5)] = (1, 1)
+    new_dict[(3, 0.6)] = (1, 1)
+    new_dict[(3, 0.7)] = (1, 1)
+    new_dict[(3, 0.8)] = (1, 1)
+    new_dict[(4, 0.1)] = (1, 1)
+    new_dict[(4, 0.2)] = (1, 1)
+    new_dict[(4, 0.3)] = (1, 1)
+    new_dict[(4, 0.4)] = (1, 1)
+    new_dict[(4, 0.5)] = (1, 1)
+    new_dict[(4, 0.6)] = (1, 1)
+    new_dict[(4, 0.7)] = (1, 1)
+    new_dict[(4, 0.8)] = (1, 1)
+    new_dict[(5, 0.1)] = (1, 1)
+    new_dict[(5, 0.2)] = (1, 1)
+    new_dict[(5, 0.3)] = (1, 1)
+    new_dict[(5, 0.4)] = (1, 1)
+    new_dict[(5, 0.5)] = (1, 1)
+    new_dict[(5, 0.6)] = (1, 1)
+    new_dict[(5, 0.7)] = (1, 1)
+    new_dict[(5, 0.8)] = (1, 1)
