@@ -3,9 +3,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import math
 
-# attribute = 'voIPPlayoutDelay'
+attribute = 'voIPPlayoutDelay'
 # attribute = 'voIPPlayoutLoss'
-attribute = 'voIPJitter'
+# attribute = 'voIPJitter'
 
 
 rbs = [1, 2, 3]
@@ -46,7 +46,6 @@ def plot_line(numUE, files, color):
     print("[", str(numUE), ", Rb1]: mean = ", rets1[0], ", variance = ", rets1[3])
     print("[", str(numUE), ", Rb2]: mean = ", rets2[0], ", variance = ", rets2[3])
     print("[", str(numUE), ", Rb3]: mean = ", rets3[0], ", variance = ", rets3[3])
-    pass
 
 
 if __name__ == '__main__':
@@ -58,6 +57,12 @@ if __name__ == '__main__':
 
     files_10 = ["VoIP_numUE10_numRbs1.csv", "VoIP_numUE10_numRbs2.csv", "VoIP_numUE10_numRbs3.csv"]
     plot_line(10, files_10, 'green')
+
+    files_5 = ["VoIP_numUE5_numRbs1.csv", "VoIP_numUE5_numRbs2.csv", "VoIP_numUE5_numRbs3.csv"]
+    plot_line(5, files_5, 'black')
+
+    files_30 = ["VoIP_numUE30_numRbs1.csv", "VoIP_numUE30_numRbs1.csv", "VoIP_numUE30_numRbs3.csv"]
+    plot_line(30, files_30, 'purple')
 
     plt.xticks(rbs)
     plt.xlabel("Number of Rbs")
