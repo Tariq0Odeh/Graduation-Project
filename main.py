@@ -12,6 +12,7 @@ T = TTI[0::N]  # the set of starting points of all DTIs
 trainingFlag = "training"
 
 listOfUsers = [5, 10, 15, 20]
+resources = [1, 2, 3]
 
 
 # This class contains the qos dictionary for each subnetwork TYPE
@@ -24,13 +25,13 @@ class QosSimulation:
 # Used to initialize a subnetwork
 class Subnetwork:
     def __init__(self, qosSimulation):
+        self.x = np.full((N,), listOfUsers[0])
+        self.r = np.full((N,), resources[0])
         self.beta = 1
-        self.x = np.zeros(N)  # TODO: Set initial traffic
-        self.r = np.zeros(K)  # TODO: Set initial resources
         self.qosSimulation = qosSimulation
         self.q = np.zeros(N)  # We get this value from sampling the mean and standard deviation
-        self.q_thresh = 0.5  # This value is set manually after observing the data from Simu5g
-        self.cumulativeX = []  # Store all traffic from the start
+        self.q_thresh = 0.007  # This value is set manually after observing the data from Simu5g
+        self.cumulativeX = [np.full((N,), listOfUsers[0])]  # Store all traffic from the start
 
 
 def calculateBeta(subnetwork):
@@ -52,7 +53,7 @@ def getTraffic(subnetwork):
 
 
 # TODO: Implement CDF
-def cdf_generator(subnetwork):
+def generate_cdf(subnetwork):
     newCDF = np.zeros((N, len(listOfUsers)))  # 2d array, cols = N (TTIs), rows = len(listofusers)
     for i in range(N):  # for every TTI
         data = np.zeros(len(subnetwork.cumulativeX))
@@ -69,8 +70,10 @@ def cdf_generator(subnetwork):
 # This needs the state
 # TODO: Add RL Work here
 def getResources():
-    pass
-
+    newResources = []
+    for i in range(N):
+        newResources.append(random.choice(resources))
+    return newResources
 
 # This function returns the qos sample by using the dictionary
 # Each subnetwork type has its own dictionary
@@ -94,21 +97,32 @@ def updateSubnetwork(subnetwork, traffic, resource, qos):
         subnetwork.q = qos
 
 
+def initialize(subnetworksIn):
+    for subn in subnetworksIn:
+        getQoS(subn)
+        calculateBeta(subn)
+
+
 if __name__ == '__main__':
-    simulation1 = QosSimulation(initDict())
-    subnetworks = [Subnetwork(simulation1)]
+    voip_simulation = QosSimulation(initDict('VoIPPlayoutDelay.csv'))
+    subnetworks = [Subnetwork(voip_simulation)]
+    initialize(subnetworks)
     for cnt in range(len(T) - 1):  # Every DTI
         for subnetwork in subnetworks:
+            # Start at the RL
             # At the start of the DTI we receive how much resources are allocated
+            # TODO: This should be centralized
             resourceR = getResources()
+            # Start of the network model
             # We also find out how much traffic we got
-            trafficX = getTraffic()
+            trafficX = getTraffic(subnetwork)
             # We update the subnetwork with the new traffic and resources
             updateSubnetwork(subnetwork, trafficX, resourceR, None)
             # Calculate Degradation Probability
             getQoS(subnetwork)
             # Calculate Beta
             calculateBeta(subnetwork)
-            # TODO: Send results to RL for a new resource allocation
+            print(cnt + 1)
+            print("Traffic: ", subnetwork.x, "\nResources: ", subnetwork.r, "\nQOS: ", subnetwork.q, "\nBETA: ", subnetwork.beta)
 
 # pdb.set_trace()
