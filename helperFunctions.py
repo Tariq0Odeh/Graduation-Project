@@ -1,50 +1,20 @@
 import numpy as np
+import pandas as pd
+
+
+# csv_file = 'VoIPPlayoutDelay.csv'
 
 # This function gets a sample value given the mean and standard deviation
 def sample_from_gaussian(mean, std_dev):
     return np.random.normal(mean, std_dev)
 
+
 # This is a temp function that creates a dictionary for the simulation
 # Improve it to be read from a file
-def initDict():
+def initDict(csv_file):
     new_dict = {}
-    new_dict[(1, 0.1)] = (1, 1)
-    new_dict[(1, 0.2)] = (1, 1)
-    new_dict[(1, 0.3)] = (1, 1)
-    new_dict[(1, 0.4)] = (1, 1)
-    new_dict[(1, 0.5)] = (1, 1)
-    new_dict[(1, 0.6)] = (1, 1)
-    new_dict[(1, 0.7)] = (1, 1)
-    new_dict[(1, 0.8)] = (1, 1)
-    new_dict[(2, 0.1)] = (1, 1)
-    new_dict[(2, 0.2)] = (1, 1)
-    new_dict[(2, 0.3)] = (1, 1)
-    new_dict[(2, 0.4)] = (1, 1)
-    new_dict[(2, 0.5)] = (1, 1)
-    new_dict[(2, 0.6)] = (1, 1)
-    new_dict[(2, 0.7)] = (1, 1)
-    new_dict[(2, 0.8)] = (1, 1)
-    new_dict[(3, 0.1)] = (1, 1)
-    new_dict[(3, 0.2)] = (1, 1)
-    new_dict[(3, 0.3)] = (1, 1)
-    new_dict[(3, 0.4)] = (1, 1)
-    new_dict[(3, 0.5)] = (1, 1)
-    new_dict[(3, 0.6)] = (1, 1)
-    new_dict[(3, 0.7)] = (1, 1)
-    new_dict[(3, 0.8)] = (1, 1)
-    new_dict[(4, 0.1)] = (1, 1)
-    new_dict[(4, 0.2)] = (1, 1)
-    new_dict[(4, 0.3)] = (1, 1)
-    new_dict[(4, 0.4)] = (1, 1)
-    new_dict[(4, 0.5)] = (1, 1)
-    new_dict[(4, 0.6)] = (1, 1)
-    new_dict[(4, 0.7)] = (1, 1)
-    new_dict[(4, 0.8)] = (1, 1)
-    new_dict[(5, 0.1)] = (1, 1)
-    new_dict[(5, 0.2)] = (1, 1)
-    new_dict[(5, 0.3)] = (1, 1)
-    new_dict[(5, 0.4)] = (1, 1)
-    new_dict[(5, 0.5)] = (1, 1)
-    new_dict[(5, 0.6)] = (1, 1)
-    new_dict[(5, 0.7)] = (1, 1)
-    new_dict[(5, 0.8)] = (1, 1)
+    df = pd.read_csv(csv_file)
+    for index, row in df.iterrows():
+        new_dict[(row[0], row[1])] = (row[2], row[3])
+
+    print(new_dict)
