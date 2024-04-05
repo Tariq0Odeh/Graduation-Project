@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import math
+import csv
 
 attribute = 'voIPPlayoutDelay'
 # attribute = 'voIPPlayoutLoss'
@@ -9,6 +10,9 @@ attribute = 'voIPPlayoutDelay'
 
 
 rbs = [1, 2, 3]
+
+write_csv_filename = 'VoIPPlayoutDelay.csv'
+results = []
 
 
 def readCSV(csv_file, numUE):
@@ -31,6 +35,15 @@ def readCSV(csv_file, numUE):
     return [qos_mean, minVal, maxVal, qos_variance]
 
 
+def write_csv():
+    with open(write_csv_filename, 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+
+        for row in results:
+            writer.writerow(row)
+    print("Results were written successfully")
+
+
 def plot_line(numUE, files, color):
     csv_file = files[0]
     rets1 = readCSV(csv_file, numUE)
@@ -43,6 +56,13 @@ def plot_line(numUE, files, color):
     maxs = [rets1[2], rets2[2], rets3[2]]
     plt.plot(rbs, qos, color=color, label="x = " + str(numUE))
     plt.fill_between(rbs, mins, maxs)
+
+    res1 = [numUE, 1, rets1[0], rets1[3]]
+    results.append(res1)
+    res2 = [numUE, 2, rets2[0], rets2[3]]
+    results.append(res2)
+    res3 = [numUE, 3, rets3[0], rets3[3]]
+    results.append(res3)
     print("[", str(numUE), ", Rb1]: mean = ", rets1[0], ", variance = ", rets1[3])
     print("[", str(numUE), ", Rb2]: mean = ", rets2[0], ", variance = ", rets2[3])
     print("[", str(numUE), ", Rb3]: mean = ", rets3[0], ", variance = ", rets3[3])
@@ -63,6 +83,8 @@ if __name__ == '__main__':
 
     files_30 = ["VoIP_numUE30_numRbs1.csv", "VoIP_numUE30_numRbs1.csv", "VoIP_numUE30_numRbs3.csv"]
     plot_line(30, files_30, 'purple')
+
+    write_csv()
 
     plt.xticks(rbs)
     plt.xlabel("Number of Rbs")
