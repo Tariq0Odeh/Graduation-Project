@@ -30,7 +30,7 @@ class Subnetwork:
         self.qosSimulation = qosSimulation
         self.q = np.zeros(N)  # We get this value from sampling the mean and standard deviation
         self.q_thresh = 0.5  # This value is set manually after observing the data from Simu5g
-        self.cumulativeX = [] # Store all traffic from the start
+        self.cumulativeX = []  # Store all traffic from the start
 
 
 def calculateBeta(subnetwork):
@@ -46,7 +46,7 @@ def getTraffic(subnetwork):
             newTraffic.append(random.choice(listOfUsers))
     else:
         for i in range(N):
-            newTraffic.append(0) # TODO: Return the traffic from the dataset
+            newTraffic.append(0)  # TODO: Return the traffic from the dataset
     subnetwork.cumulativeX.append(newTraffic)
     return newTraffic
 
@@ -78,10 +78,11 @@ def getResources():
 def getQoS(subnetwork):
     qos = np.zeros(N)
     for i in range(N):
-        gaussianTuple = subnetwork.qosSimulation.dict[(subnetwork.x[i], subnetwork.r[0])] # value, value
+        gaussianTuple = subnetwork.qosSimulation.dict[(subnetwork.x[i], subnetwork.r[0])]  # value, value
         sampledValue = sample_from_gaussian(gaussianTuple[0], gaussianTuple[1])
         qos[i] = sampledValue
     updateSubnetwork(subnetwork, None, None, qos)
+
 
 # Function used to update a subnetwork attributes
 def updateSubnetwork(subnetwork, traffic, resource, qos):
@@ -91,7 +92,6 @@ def updateSubnetwork(subnetwork, traffic, resource, qos):
         subnetwork.r = resource
     if qos is not None:
         subnetwork.q = qos
-
 
 
 if __name__ == '__main__':
@@ -110,7 +110,5 @@ if __name__ == '__main__':
             # Calculate Beta
             calculateBeta(subnetwork)
             # TODO: Send results to RL for a new resource allocation
-
-
 
 # pdb.set_trace()
