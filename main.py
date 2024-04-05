@@ -39,7 +39,7 @@ def calculateBeta(subnetwork):
 
 # this function represents the traffic given to a subnetwork. In training, it is random. In testing, we take traffic
 # from Italia communication dataset
-def getTraffic():
+def getTraffic(subnetwork):
     newTraffic = []
     if trainingFlag == "training":
         for i in range(N):
@@ -52,18 +52,17 @@ def getTraffic():
 
 
 # TODO: Implement CDF
-def predictTraffic(subnetwork):
-    # predicted = np.zeros((N, len(listOfUsers))) # 2d array, cols = N (TTIs), rows = len(listofusers)
-    # for i in range(N): # for every TTI
-    #     data = np.zeros(len(subnetwork.cumulativeX))
-    #     for j in range(len(subnetwork.cumulativeX)):
-    #         data[j] = subnetwork.cumulativeX[j][i]
-    #
-    #     count, bins_count = np.histogram(data, bins=1)
-    #     pdf = count / sum(count)
-    #     cdf = np.cumsum(pdf)
-    pass
-
+def cdf_generator(subnetwork):
+    newCDF = np.zeros((N, len(listOfUsers)))  # 2d array, cols = N (TTIs), rows = len(listofusers)
+    for i in range(N):  # for every TTI
+        data = np.zeros(len(subnetwork.cumulativeX))
+        for j in range(len(subnetwork.cumulativeX)):
+            data[j] = subnetwork.cumulativeX[j][i]
+        count, bins_count = np.histogram(data, bins=[0, 5, 10, 15, 20])
+        pdf = count / sum(count)
+        cdf = np.cumsum(pdf)
+        newCDF[i] = cdf
+    return newCDF
 
 
 # Using RL, the resources are changed (10% - 80%)

@@ -3,9 +3,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import math
 
-attribute = 'voIPPlayoutDelay'
+# attribute = 'voIPPlayoutDelay'
 # attribute = 'voIPPlayoutLoss'
-# attribute = 'voIPJitter'
+attribute = 'voIPJitter'
 
 
 rbs = [1, 2, 3]
@@ -22,9 +22,10 @@ def readCSV(csv_file, numUE):
         filtered['value'] = pd.to_numeric(filtered['value'])
         means.append(np.mean(filtered.value))
     means = [0 if math.isnan(x) else x for x in means]
-    qos_mean = np.mean(means)
-    qos_variance = np.var(means)
+
     no_zeros = [x for x in means if x != 0]
+    qos_mean = np.mean(no_zeros)
+    qos_variance = np.var(no_zeros)
     minVal = min(no_zeros)
     maxVal = max(means)
     return [qos_mean, minVal, maxVal, qos_variance]
