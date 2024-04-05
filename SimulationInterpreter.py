@@ -39,6 +39,7 @@ def write_csv():
     with open(write_csv_filename, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
 
+        writer.writerow(['users', 'resources', 'mean', 'standard deviation'])
         for row in results:
             writer.writerow(row)
     print("Results were written successfully")
