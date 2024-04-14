@@ -89,6 +89,8 @@ def plot_results(existing_data):
     plt.title("VoIP Delay")
     plt.xlabel("numRbs")
     plt.ylabel("Delay")
+    plt.xlim(0, 7)
+    plt.grid(True)
     plt.legend()
 
     plt.figure()
@@ -98,6 +100,8 @@ def plot_results(existing_data):
     plt.title("VoIP Loss")
     plt.xlabel("numRbs")
     plt.ylabel("Loss")
+    plt.xlim(0, 7)
+    plt.grid(True)
     plt.legend()
 
     plt.figure()
@@ -108,6 +112,8 @@ def plot_results(existing_data):
     plt.xlabel("numRbs")
     plt.ylabel("Jitter")
     plt.legend()
+    plt.xlim(0, 7)
+    plt.grid(True)
     plt.show()  # Show all plots together at the end
 
 
