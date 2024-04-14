@@ -16,5 +16,4 @@ def initDict(csv_file):
     df = pd.read_csv(csv_file)
     for index, row in df.iterrows():
         new_dict[(row[0], row[1])] = (row[2], row[3])
-
-    print(new_dict)
+    return new_dict
