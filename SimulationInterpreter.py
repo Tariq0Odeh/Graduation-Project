@@ -84,7 +84,7 @@ def plot_results(existing_data):
 
     plt.figure()
     for key in plot_delay.keys():
-        plt.plot(plot_delay[key]['numRbs'], plot_delay[key]['qos'], label="x = " + key)
+        plt.plot(plot_delay[key]['numRbs'], plot_delay[key]['qos'], label="UEs = " + key)
         plt.fill_between(plot_delay[key]['numRbs'], plot_delay[key]['min'], plot_delay[key]['max'], alpha=0.2)
     plt.title("VoIP Delay")
     plt.xlabel("numRbs")
@@ -95,7 +95,7 @@ def plot_results(existing_data):
 
     plt.figure()
     for key in plot_loss.keys():
-        plt.plot(plot_loss[key]['numRbs'], plot_loss[key]['qos'], label="x = " + key)
+        plt.plot(plot_loss[key]['numRbs'], plot_loss[key]['qos'], label="UEs = " + key)
         plt.fill_between(plot_loss[key]['numRbs'], plot_loss[key]['min'], plot_loss[key]['max'], alpha=0.2)
     plt.title("VoIP Loss")
     plt.xlabel("numRbs")
@@ -106,7 +106,7 @@ def plot_results(existing_data):
 
     plt.figure()
     for key in plot_jitter.keys():
-        plt.plot(plot_jitter[key]['numRbs'], plot_jitter[key]['qos'], label="x = " + key)
+        plt.plot(plot_jitter[key]['numRbs'], plot_jitter[key]['qos'], label="UEs = " + key)
         plt.fill_between(plot_jitter[key]['numRbs'], plot_jitter[key]['min'], plot_jitter[key]['max'], alpha=0.2)
     plt.title("VoIP Jitter")
     plt.xlabel("numRbs")
