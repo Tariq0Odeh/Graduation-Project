@@ -44,7 +44,10 @@ def plot_results(existing_data):
 
     plt.figure()
     for key in plot_delay.keys():
-        plt.plot(plot_delay[key]['numRbs'], plot_delay[key]['qos'], label="UEs = " + key)
+        sorted_indices = sorted(range(len(plot_delay[key]['numRbs'])), key=lambda k: plot_delay[key]['numRbs'][k])
+        sorted_numRbs = [plot_delay[key]['numRbs'][i] for i in sorted_indices]
+        sorted_qos = [plot_delay[key]['qos'][i] for i in sorted_indices]
+        plt.plot(sorted_numRbs, sorted_qos, label="UEs = " + key)
         # plt.fill_between(plot_delay[key]['numRbs'], plot_delay[key]['min'], plot_delay[key]['max'], alpha=0.2)
     plt.title("VoIP Delay")
     plt.xlabel("numRbs")
@@ -55,7 +58,10 @@ def plot_results(existing_data):
 
     plt.figure()
     for key in plot_loss.keys():
-        plt.plot(plot_loss[key]['numRbs'], plot_loss[key]['qos'], label="UEs = " + key)
+        sorted_indices = sorted(range(len(plot_loss[key]['numRbs'])), key=lambda k: plot_loss[key]['numRbs'][k])
+        sorted_numRbs = [plot_loss[key]['numRbs'][i] for i in sorted_indices]
+        sorted_qos = [plot_loss[key]['qos'][i] for i in sorted_indices]
+        plt.plot(sorted_numRbs, sorted_qos, label="UEs = " + key)
         # plt.fill_between(plot_loss[key]['numRbs'], plot_loss[key]['min'], plot_loss[key]['max'], alpha=0.2)
     plt.title("VoIP Loss")
     plt.xlabel("numRbs")
@@ -66,7 +72,10 @@ def plot_results(existing_data):
 
     plt.figure()
     for key in plot_jitter.keys():
-        plt.plot(plot_jitter[key]['numRbs'], plot_jitter[key]['qos'], label="UEs = " + key)
+        sorted_indices = sorted(range(len(plot_jitter[key]['numRbs'])), key=lambda k: plot_jitter[key]['numRbs'][k])
+        sorted_numRbs = [plot_jitter[key]['numRbs'][i] for i in sorted_indices]
+        sorted_qos = [plot_jitter[key]['qos'][i] for i in sorted_indices]
+        plt.plot(sorted_numRbs, sorted_qos, label="UEs = " + key)
         # plt.fill_between(plot_jitter[key]['numRbs'], plot_jitter[key]['min'], plot_jitter[key]['max'], alpha=0.2)
     plt.title("VoIP Jitter")
     plt.xlabel("numRbs")
@@ -138,6 +147,7 @@ def write_json_to_csv(data, csv_file):
                 "Jitter (min)": record["jitter"]["jitter_min"],
                 "Jitter (max)": record["jitter"]["jitter_max"]
             })
+
 
 if __name__ == '__main__':
     existing_data = read_json("VOIP_D30sec_results.json")
