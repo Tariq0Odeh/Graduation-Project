@@ -76,7 +76,7 @@ def plot_results(existing_data):
         sorted_qos = [plot_delay[key]['qos'][i] for i in sorted_indices]
         plt.plot(sorted_numRbs, sorted_qos, label="UEs = " + key)
         # plt.fill_between(plot_delay[key]['numRbs'], plot_delay[key]['min'], plot_delay[key]['max'], alpha=0.2)
-    plt.title("VoIP Delay")
+    plt.title("CBR Delay")
     plt.xlabel("numRbs")
     plt.ylabel("Delay")
     plt.xlim(0, 7)
@@ -128,7 +128,7 @@ def write_json_to_csv(data, csv_file):
 
 
 if __name__ == '__main__':
-    existing_data = read_json("/jsonFiles/VOIP_D30sec_results.json")
+    existing_data = read_json("jsonFiles/cbr_d30sec_results.json")
     # print_to_table(existing_data)
     plot_results(existing_data)
     # write_json_to_csv(existing_data, "voip_d30sec_results.csv")
