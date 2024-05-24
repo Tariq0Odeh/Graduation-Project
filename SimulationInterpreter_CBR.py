@@ -9,7 +9,7 @@ json_path = 'jsonFiles/cbr_d30sec_results.json'
 
 
 def readResults(csv_file, numOfUE):
-    df = pd.read_csv(folder_path + "\\" + csv_file, dtype={6: str, 15: str, 16: str})
+    df = pd.read_csv(folder_path + "/" + csv_file, dtype={6: str, 15: str, 16: str})
     data_delay = []
     data_loss = []
     data_jitter = []
