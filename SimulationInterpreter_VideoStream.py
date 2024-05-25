@@ -11,18 +11,18 @@ json_path = 'jsonFiles/videoStream_d90sec_results.json'
 
 
 def readResults(csv_file, numOfUE):
-    df = pd.read_csv(folder_path + "\\" + csv_file, dtype={6: str, 15: str, 16: str})
+    df = pd.read_csv(folder_path + "/" + csv_file, dtype={6: str, 15: str, 16: str})
     data_delay = []
     data_loss = []
     for i in range(1, int(numOfUE) + 1):
         ue = "UrbanNetwork.ue[" + str(i) + "].app[1]"
         filtered = df[(df['type'] == 'scalar') & (df['module'] == ue)]
 
-        filtered_delay = filtered[(filtered['name'].str.contains('rtVideoStreamingEnd2endDelaySegment'))]  # TODO: Edit Attribute
+        filtered_delay = filtered[(filtered['name'].str.contains('rtVideoStreamingEnd2endDelaySegment'))]
         filtered_delay.loc[:, 'value'] = pd.to_numeric(filtered_delay['value'])
         data_delay.append(np.mean(filtered_delay.value))
 
-        filtered_loss = filtered[(filtered['name'].str.contains('rtVideoStreamingSegmentLoss'))]  # TODO: Edit Attribute
+        filtered_loss = filtered[(filtered['name'].str.contains('rtVideoStreamingSegmentLoss'))]
         filtered_loss.loc[:, 'value'] = pd.to_numeric(filtered_loss['value'])
         data_loss.append(np.mean(filtered_loss.value))
 
