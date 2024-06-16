@@ -283,10 +283,12 @@ class Environment(gym.Env):
 
     def step(self, action, subnetworks, episode):
         betas = np.zeros(numOfSubnetworks)
+        resourcesArray = np.zeros(numOfSubnetworks)
         resourceSum = 0
         for i in range(numOfSubnetworks):
             newResource = subnetworks[i].r[0] + mapAction(action)[i]
             newResource = max(1, min(newResource, 8))
+            resourcesArray[i] = newResource
             resourceR = np.full(N, newResource)
             updateSubnetwork(subnetworks[i], None, resourceR, None)
 
@@ -299,7 +301,7 @@ class Environment(gym.Env):
 
         # reward = w0 * (resourceSum - capacity) / capacity + w1 * -resourceSum * subnetworks[0].beta
         avg_beta = np.mean(betas)
-        reward = w0 * (resourceSum - capacity) / capacity + w1 * -resourceSum * avg_beta
+        reward = w0 * (resourceSum - capacity) / capacity + w1/2 * -resourcesArray[0] * subnetworks[0].beta + w1/2 * -resourcesArray[1] * subnetworks[1].beta
         pdb.set_trace()
 
         newObservation = np.array([])
