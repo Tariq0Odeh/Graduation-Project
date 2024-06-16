@@ -301,7 +301,8 @@ class Environment(gym.Env):
 
         # reward = w0 * (resourceSum - capacity) / capacity + w1 * -resourceSum * subnetworks[0].beta
         avg_beta = np.mean(betas)
-        reward = w0 * (resourceSum - capacity) / capacity + w1/2 * -resourcesArray[0] * subnetworks[0].beta + w1/2 * -resourcesArray[1] * subnetworks[1].beta
+        # reward = w0 * (resourceSum - capacity) / capacity + w1/2 * -resourcesArray[0] * subnetworks[0].beta + w1/2 * -resourcesArray[1] * subnetworks[1].beta
+        reward = w0 * (resourceSum - capacity) / capacity + w1/2 * subnetworks[0].beta + w1/2 * subnetworks[1].beta
         pdb.set_trace()
 
         newObservation = np.array([])
