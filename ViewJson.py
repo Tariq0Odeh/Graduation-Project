@@ -2,6 +2,8 @@ import json
 import matplotlib.pyplot as plt
 from tabulate import tabulate
 import csv
+import matplotlib.cm as cm
+import numpy as np
 
 
 def read_json(json_path):
@@ -19,6 +21,7 @@ def plot_results(existing_data):
     plot_delay = {}
     plot_loss = {}
     plot_jitter = {}
+
     for key, value in existing_data.items():
         numUE = value['numUE']
         if numUE not in plot_delay.keys():
@@ -42,13 +45,15 @@ def plot_results(existing_data):
         plot_jitter[numUE]['min'].append(value["jitter"]["jitter_min"])
         plot_jitter[numUE]['max'].append(value["jitter"]["jitter_max"])
 
+    ue_keys = sorted(plot_delay.keys(), key=int)
+    colors = plt.get_cmap('tab20', len(ue_keys))
+
     plt.figure()
-    for key in plot_delay.keys():
+    for i, key in enumerate(ue_keys):
         sorted_indices = sorted(range(len(plot_delay[key]['numRbs'])), key=lambda k: plot_delay[key]['numRbs'][k])
         sorted_numRbs = [plot_delay[key]['numRbs'][i] for i in sorted_indices]
         sorted_qos = [plot_delay[key]['qos'][i] for i in sorted_indices]
-        plt.plot(sorted_numRbs, sorted_qos, label="UEs = " + key)
-        # plt.fill_between(plot_delay[key]['numRbs'], plot_delay[key]['min'], plot_delay[key]['max'], alpha=0.2)
+        plt.plot(sorted_numRbs, sorted_qos, label="UEs = " + str(key), color=colors(i))
     plt.title("VoIP Delay")
     plt.xlabel("numRbs")
     plt.ylabel("Delay")
@@ -57,12 +62,11 @@ def plot_results(existing_data):
     plt.legend()
 
     plt.figure()
-    for key in plot_loss.keys():
+    for i, key in enumerate(ue_keys):
         sorted_indices = sorted(range(len(plot_loss[key]['numRbs'])), key=lambda k: plot_loss[key]['numRbs'][k])
         sorted_numRbs = [plot_loss[key]['numRbs'][i] for i in sorted_indices]
         sorted_qos = [plot_loss[key]['qos'][i] for i in sorted_indices]
-        plt.plot(sorted_numRbs, sorted_qos, label="UEs = " + key)
-        # plt.fill_between(plot_loss[key]['numRbs'], plot_loss[key]['min'], plot_loss[key]['max'], alpha=0.2)
+        plt.plot(sorted_numRbs, sorted_qos, label="UEs = " + str(key), color=colors(i))
     plt.title("VoIP Loss")
     plt.xlabel("numRbs")
     plt.ylabel("Loss")
@@ -71,12 +75,11 @@ def plot_results(existing_data):
     plt.legend()
 
     plt.figure()
-    for key in plot_jitter.keys():
+    for i, key in enumerate(ue_keys):
         sorted_indices = sorted(range(len(plot_jitter[key]['numRbs'])), key=lambda k: plot_jitter[key]['numRbs'][k])
         sorted_numRbs = [plot_jitter[key]['numRbs'][i] for i in sorted_indices]
         sorted_qos = [plot_jitter[key]['qos'][i] for i in sorted_indices]
-        plt.plot(sorted_numRbs, sorted_qos, label="UEs = " + key)
-        # plt.fill_between(plot_jitter[key]['numRbs'], plot_jitter[key]['min'], plot_jitter[key]['max'], alpha=0.2)
+        plt.plot(sorted_numRbs, sorted_qos, label="UEs = " + str(key), color=colors(i))
     plt.title("VoIP Jitter")
     plt.xlabel("numRbs")
     plt.ylabel("Jitter")
